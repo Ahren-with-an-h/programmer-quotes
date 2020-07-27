@@ -16,14 +16,33 @@ body {
   justify-content: center; /* not really needed with auto margin on img*/
 }
 
-.btn {
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 55vw;
+  backdrop-filter: blur(10px) brightness(50%) grayscale(75%);
+}
+
+#quote {
+  margin: 8%;
   color: white;
-  padding: 10px 30px;
-  border-radius: 5px;
-  background: #f857a6;
-  background: -webkit-linear-gradient(to right, #ff5858, #f857a6);
-  background: linear-gradient(to right, #ff5858, #f857a6);
-  box-shadow: 0 10px 10px -2px rgba(0, 0, 0, 0.25);
+  font-size: 2em;
+}
+
+#author {
+  width: 80%;
+  color: white;
+  font-size: 2em;
+}
+
+.btn {
+  margin: 5%;
+  border: 2px solid black;
+  background: transparent;
+  color: white;
+  padding: 14px 28px;
+  font-size: 16px;
   cursor: pointer;
-  border: 0 !important;
+  border-color: #e7e7e7;
 }

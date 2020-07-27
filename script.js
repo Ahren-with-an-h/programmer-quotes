@@ -1,15 +1,9 @@
 let sig = 0; // unique ID for each API request
 const img = document.getElementById("img");
 const button = document.getElementById("button");
-// Get window dimensions
-const width =
-  window.innerWidth ||
-  document.documentElement.clientWidth ||
-  document.body.clientWidth;
-const height =
-  window.innerHeight ||
-  document.documentElement.clientHeight ||
-  document.body.clientHeight;
+const wrapper = document.getElementById("wrapper");
+const quote = document.getElementById("quote");
+const author = document.getElementById("author");
 
 // Retrieve quote from Programming-Quotes api
 async function getQuotes() {
@@ -18,7 +12,8 @@ async function getQuotes() {
   try {
     const response = await fetch(quoteUrl);
     const data = await response.json();
-    console.log(data);
+    quote.innerText = data.en;
+    author.innerText = data.author;
   } catch (err) {
     console.log("Error -> ", err);
   }
@@ -26,18 +21,30 @@ async function getQuotes() {
 
 // Retrieve image from Unsplash api
 async function getImg() {
-  const imgUrl = `https://source.unsplash.com/random/${width * 0.75}x${height *
-    0.75}/?sig=${sig}`;
+  // Get window dimensions
+  const width =
+    window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  const height =
+    window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+  const imgUrl = `https://source.unsplash.com/collection/545337/${width}x${height}/?sig=${sig}`;
+  console.log("imgUrl: ", imgUrl);
   sig++; // increment unique ID for random image request
 
   try {
     const response = await fetch(imgUrl);
     console.log("img", response);
-    img.setAttribute("src", response);
+    wrapper.style.background = `url('${response.url}') no-repeat center`;
   } catch (err) {
     console.log("Error -> ", err);
   }
 }
 
-button.addEventListener("click", getImg);
+button.addEventListener("click", () => { getImg(); getQuotes(); } );
+getImg();
 getQuotes();
+
+/*
+Load next image and quote before we need it
+Fade out and fade in
+*/
