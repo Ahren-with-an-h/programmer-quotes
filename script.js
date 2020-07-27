@@ -3,9 +3,13 @@ const img = document.getElementById("img");
 const button = document.getElementById("button");
 // Get window dimensions
 const width =
-  window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  window.innerWidth ||
+  document.documentElement.clientWidth ||
+  document.body.clientWidth;
 const height =
-  window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  window.innerHeight ||
+  document.documentElement.clientHeight ||
+  document.body.clientHeight;
 
 // Retrieve quote from Programming-Quotes api
 async function getQuotes() {
@@ -22,19 +26,18 @@ async function getQuotes() {
 
 // Retrieve image from Unsplash api
 async function getImg() {
-  imgUrl = `https://source.unsplash.com/random/${width * 0.75}x${height * 0.75}/?sig=${sig}`;
+  const imgUrl = `https://source.unsplash.com/random/${width * 0.75}x${height *
+    0.75}/?sig=${sig}`;
   sig++; // increment unique ID for random image request
-  console.log("flag");
+
   try {
     const response = await fetch(imgUrl);
     console.log("img", response);
     img.setAttribute("src", response);
   } catch (err) {
-    apiGet(url);
     console.log("Error -> ", err);
   }
 }
 
 button.addEventListener("click", getImg);
-
 getQuotes();
