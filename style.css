@@ -13,7 +13,14 @@ body {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center; /* not really needed with auto margin on img*/
+  justify-content: center; 
+}
+
+#background {
+  width: 100%;
+  min-height: 100vh;
+  position: absolute;
+  z-index: -1;
 }
 
 #container {
@@ -25,7 +32,7 @@ body {
 }
 
 #quote {
-  margin: 8%;
+  margin: 5%;
   color: white;
   font-size: 2em;
 }
@@ -37,12 +44,61 @@ body {
 }
 
 .btn {
-  margin: 5%;
+  margin: 2%;
   border: 2px solid black;
   background: transparent;
   color: white;
   padding: 14px 28px;
-  font-size: 16px;
+  font-size: 1.2em;
   cursor: pointer;
   border-color: #e7e7e7;
+}
+
+/* Background fade in effect */
+.fade-in {
+  animation: fadeIn ease 5s forwards;
+  -webkit-animation: fadeIn ease 5s forwards;
+  -moz-animation: fadeIn ease 5s forwards;
+  -o-animation: fadeIn ease 5s forwards;
+  -ms-animation: fadeIn ease 5s forwards;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

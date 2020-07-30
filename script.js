@@ -2,6 +2,7 @@ let sig = 0; // unique ID for each API request
 const img = document.getElementById("img");
 const button = document.getElementById("button");
 const wrapper = document.getElementById("wrapper");
+const background = document.getElementById("background");
 const quote = document.getElementById("quote");
 const author = document.getElementById("author");
 
@@ -32,9 +33,14 @@ async function getImg() {
   sig++; // increment unique ID for random image request
 
   try {
-    const response = await fetch(imgUrl);
-    console.log("img", response);
-    wrapper.style.background = `url('${response.url}') no-repeat center`;
+    var bgImage = new Image();
+    // Wait for image to load then start fade in
+    bgImage.addEventListener("load", () => {
+      background.style.background = `url('${bgImage.src}') no-repeat center`;
+      background.classList.add("fade-in")
+    });
+    // Get the background
+    bgImage.src = imgUrl;
   } catch (err) {
     console.log("Error -> ", err);
   }
