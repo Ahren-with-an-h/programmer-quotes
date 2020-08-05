@@ -1,56 +1,85 @@
 let sig = 0; // unique ID for each API request
-const img = document.getElementById("img");
-const button = document.getElementById("button");
 const wrapper = document.getElementById("wrapper");
 const background = document.getElementById("background");
-const quote = document.getElementById("quote");
-const author = document.getElementById("author");
+
+function createQuoteBox(quote, author) {
+  // Create the quote box container
+  const quoteBox = document.createElement("div");
+  quoteBox.id = "quote-box";
+  quoteBox.classList.add("animate__animated");
+  quoteBox.classList.add("animate__flipInX");
+  // Create the quote element
+  const quoteTxt = document.createElement("div");
+  quoteTxt.id = "quote";
+  quoteTxt.appendChild(document.createTextNode(quote));
+  quoteBox.appendChild(quoteTxt);
+  // Create the author element
+  const authorTxt = document.createElement("div");
+  authorTxt.id = "author";
+  authorTxt.appendChild(document.createTextNode(author));
+  quoteBox.appendChild(authorTxt);
+  // Create the button
+  const button = document.createElement("button");
+  button.id = "button";
+  button.classList.add("btn");
+  button.addEventListener("click", nextQuote);
+  button.appendChild(document.createTextNode("Another"))
+  quoteBox.appendChild(button);
+  // Add it all to the document
+  wrapper.appendChild(quoteBox);
+}
+
+function nextQuote() {
+  try {
+    const oldBox = document.getElementById("quote-box");
+    oldBox.remove();
+    const oldImg = document.getElementById("img");
+    oldImg.remove();
+  } catch {}
+
+  const quote = getQuote();
+  const img = getImage();
+
+  Promise.all([quote, img]).then(([quote, img]) => {
+    background.appendChild(img);
+    createQuoteBox(quote.en, quote.author);
+  });
+}
 
 // Retrieve quote from Programming-Quotes api
-async function getQuotes() {
+async function getQuote() {
   const quoteUrl = "https://programming-quotes-api.herokuapp.com/quotes/random";
 
   try {
     const response = await fetch(quoteUrl);
     const data = await response.json();
-    quote.innerText = data.en;
-    author.innerText = data.author;
+    return data;
   } catch (err) {
     console.log("Error -> ", err);
   }
 }
 
 // Retrieve image from Unsplash api
-async function getImg() {
-  // Get window dimensions
+function makeImageUrl() {
   const width =
     window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   const height =
     window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
-  const imgUrl = `https://source.unsplash.com/collection/545337/${width}x${height}/?sig=${sig}`;
-  console.log("imgUrl: ", imgUrl);
+  const imageUrl = `https://source.unsplash.com/collection/545337/${width}x${height}/?sig=${sig}`;
   sig++; // increment unique ID for random image request
-
-  try {
-    var bgImage = new Image();
-    // Wait for image to load then start fade in
-    bgImage.addEventListener("load", () => {
-      background.style.background = `url('${bgImage.src}') no-repeat center`;
-      background.classList.add("fade-in")
-    });
-    // Get the background
-    bgImage.src = imgUrl;
-  } catch (err) {
-    console.log("Error -> ", err);
-  }
+  return imageUrl;
 }
 
-button.addEventListener("click", () => { getImg(); getQuotes(); } );
-getImg();
-getQuotes();
+function getImage() {
+  const url = makeImageUrl();
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.id = "img";
+    image.addEventListener("load", () => {
+      resolve(image);
+    });
+    image.src = url;
+  });
+}
 
-/*
-Load next image and quote before we need it
-Fade out and fade in
-*/
+nextQuote(true);
