@@ -23,27 +23,54 @@ function createQuoteBox(quote, author) {
   button.id = "button";
   button.classList.add("btn");
   button.addEventListener("click", nextQuote);
-  button.appendChild(document.createTextNode("Another"))
+  button.appendChild(document.createTextNode("Another"));
   quoteBox.appendChild(button);
   // Add it all to the document
   wrapper.appendChild(quoteBox);
 }
 
 function nextQuote() {
-  try {
-    const oldBox = document.getElementById("quote-box");
-    oldBox.remove();
-    const oldImg = document.getElementById("img");
-    oldImg.remove();
-  } catch {}
-
+  let fadeout = false;
+  // Start loading next quote and image
   const quote = getQuote();
   const img = getImage();
 
-  Promise.all([quote, img]).then(([quote, img]) => {
-    background.appendChild(img);
-    createQuoteBox(quote.en, quote.author);
-  });
+  try {
+    // Flip out old quote box
+    const oldBox = document.getElementById("quote-box");
+    oldBox.classList.add("animate__flipOutX");
+
+    // Fade out old background image
+    const oldImg = document.getElementById("img");
+    oldImg.classList.add("img-fade-out");
+
+    // Wait for them to finish their animations
+    fadeout = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        oldBox.remove();
+        oldImg.remove();
+        resolve(true);
+      }, 3000);
+    });
+  } catch (err) {
+    console.log("Initial load, or new load failed. Error -> ", err);
+  }
+
+  // If we are fading out the previous image wait for it to finish.
+  if (fadeout) {
+    Promise.all([fadeout, quote, img]).then(([fadeout, quote, img]) => {
+      img.id = "img";
+      background.appendChild(img);
+      createQuoteBox(quote.en, quote.author);
+    });
+    // Otherwise it's the first load so ignore the fadeout promise
+  } else {
+    Promise.all([quote, img]).then(([quote, img]) => {
+      img.id = "img";
+      background.appendChild(img);
+      createQuoteBox(quote.en, quote.author);
+    });
+  }
 }
 
 // Retrieve quote from Programming-Quotes api
@@ -55,7 +82,7 @@ async function getQuote() {
     const data = await response.json();
     return data;
   } catch (err) {
-    console.log("Error -> ", err);
+    console.log("getQuote() Error -> ", err);
   }
 }
 
@@ -74,7 +101,7 @@ function getImage() {
   const url = makeImageUrl();
   return new Promise((resolve) => {
     const image = new Image();
-    image.id = "img";
+    image.classList.add("img-fade-in");
     image.addEventListener("load", () => {
       resolve(image);
     });

@@ -56,7 +56,7 @@ body {
   border-color: #e7e7e7;
 }
 
-/* Background fade in effect */
+/* Background fade in and out effect */
 @keyframes imgFadeIn {
   0% {
     opacity: 0;
@@ -67,6 +67,18 @@ body {
 }
 
 .img-fade-in {
-  animation: imgFadeIn ease 5s forwards;
+  animation: imgFadeIn ease 2s forwards;
 }
 
+@keyframes imgFadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.img-fade-out {
+  animation: imgFadeOut ease 2s forwards;
+}
