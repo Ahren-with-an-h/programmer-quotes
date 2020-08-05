@@ -6,8 +6,8 @@ function createQuoteBox(quote, author) {
   // Create the quote box container
   const quoteBox = document.createElement("div");
   quoteBox.id = "quote-box";
-  quoteBox.classList.add("animate__animated");
-  quoteBox.classList.add("animate__flipInX");
+  quoteBox.classList.add("ld");
+  quoteBox.classList.add("ld-flip-v-in");
   // Create the quote element
   const quoteTxt = document.createElement("div");
   quoteTxt.id = "quote";
@@ -38,7 +38,7 @@ function nextQuote() {
   try {
     // Flip out old quote box
     const oldBox = document.getElementById("quote-box");
-    oldBox.classList.add("animate__flipOutX");
+    oldBox.classList.add("ld-flip-v-out");
 
     // Fade out old background image
     const oldImg = document.getElementById("img");
