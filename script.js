@@ -93,7 +93,9 @@ function makeImageUrl() {
   const height =
     window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
   const imageUrl = `https://source.unsplash.com/collection/545337/${width}x${height}/?sig=${sig}`;
+  // const imageUrl = `https://source.unsplash.com/random/${width}x${height}/?code,sig=${sig}`;
   sig++; // increment unique ID for random image request
+
   return imageUrl;
 }
 
