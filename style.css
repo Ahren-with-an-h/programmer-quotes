@@ -67,7 +67,7 @@ body {
 }
 
 .img-fade-in {
-  animation: imgFadeIn ease 2s forwards;
+  animation: imgFadeIn ease 1.5s forwards;
 }
 
 @keyframes imgFadeOut {
@@ -80,5 +80,5 @@ body {
 }
 
 .img-fade-out {
-  animation: imgFadeOut ease 2s forwards;
+  animation: imgFadeOut ease 1.5s forwards;
 }
