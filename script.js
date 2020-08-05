@@ -2,33 +2,7 @@ let sig = 0; // unique ID for each API request
 const wrapper = document.getElementById("wrapper");
 const background = document.getElementById("background");
 
-function createQuoteBox(quote, author) {
-  // Create the quote box container
-  const quoteBox = document.createElement("div");
-  quoteBox.id = "quote-box";
-  quoteBox.classList.add("ld");
-  quoteBox.classList.add("ld-flip-v-in");
-  // Create the quote element
-  const quoteTxt = document.createElement("div");
-  quoteTxt.id = "quote";
-  quoteTxt.appendChild(document.createTextNode(quote));
-  quoteBox.appendChild(quoteTxt);
-  // Create the author element
-  const authorTxt = document.createElement("div");
-  authorTxt.id = "author";
-  authorTxt.appendChild(document.createTextNode(author));
-  quoteBox.appendChild(authorTxt);
-  // Create the button
-  const button = document.createElement("button");
-  button.id = "button";
-  button.classList.add("btn");
-  button.addEventListener("click", nextQuote);
-  button.appendChild(document.createTextNode("Another"));
-  quoteBox.appendChild(button);
-  // Add it all to the document
-  wrapper.appendChild(quoteBox);
-}
-
+// Does everything. Gets a quote, an image for the background, creates the elements, and makes it all happen.
 function nextQuote() {
   let fadeout = false;
   // Start loading next quote and image
@@ -73,6 +47,34 @@ function nextQuote() {
   }
 }
 
+// Constructs the elements and appends them to the document
+function createQuoteBox(quote, author) {
+  // Create the quote box container
+  const quoteBox = document.createElement("div");
+  quoteBox.id = "quote-box";
+  quoteBox.classList.add("ld");
+  quoteBox.classList.add("ld-flip-v-in");
+  // Create the quote element
+  const quoteTxt = document.createElement("div");
+  quoteTxt.id = "quote";
+  quoteTxt.appendChild(document.createTextNode(quote));
+  quoteBox.appendChild(quoteTxt);
+  // Create the author element
+  const authorTxt = document.createElement("div");
+  authorTxt.id = "author";
+  authorTxt.appendChild(document.createTextNode(author));
+  quoteBox.appendChild(authorTxt);
+  // Create the button
+  const button = document.createElement("button");
+  button.id = "button";
+  button.classList.add("btn");
+  button.addEventListener("click", nextQuote);
+  button.appendChild(document.createTextNode("Another"));
+  quoteBox.appendChild(button);
+  // Add it all to the document
+  wrapper.appendChild(quoteBox);
+}
+
 // Retrieve quote from Programming-Quotes api
 async function getQuote() {
   const quoteUrl = "https://programming-quotes-api.herokuapp.com/quotes/random";
@@ -86,19 +88,19 @@ async function getQuote() {
   }
 }
 
-// Retrieve image from Unsplash api
+// Construct URL for image from Unsplash API for fetching
 function makeImageUrl() {
   const width =
     window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   const height =
     window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
   const imageUrl = `https://source.unsplash.com/collection/545337/${width}x${height}/?sig=${sig}`;
-  // const imageUrl = `https://source.unsplash.com/random/${width}x${height}/?code,sig=${sig}`;
   sig++; // increment unique ID for random image request
 
   return imageUrl;
 }
 
+// Fetch image, return promise
 function getImage() {
   const url = makeImageUrl();
   return new Promise((resolve) => {
@@ -111,4 +113,5 @@ function getImage() {
   });
 }
 
+// load the first quote
 nextQuote(true);

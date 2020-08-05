@@ -8,6 +8,11 @@ body {
   background-color: black;
 }
 
+img {
+  width: 100%;
+  height: 100%;
+}
+
 .wrapper {
   width: 100%;
   min-height: 100vh;
@@ -24,11 +29,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center; 
-}
-
-img {
-  width: 100%;
-  height: 100%;
 }
 
 #quote-box {
